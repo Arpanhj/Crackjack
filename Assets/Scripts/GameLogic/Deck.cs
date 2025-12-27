@@ -17,10 +17,6 @@ public class Deck : MonoBehaviour
         cards = new List<GameObject>();
         PopulateDeck();
         ShuffleDeck();
-        for (int i = 0; i < cards.Count; i++)
-        {
-            Debug.Log(DrawCard().name);
-        }
     }
 
     void PopulateDeck()

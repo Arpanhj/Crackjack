@@ -1,4 +1,5 @@
 using System.IO;
+using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 
@@ -34,7 +35,7 @@ public class Card : MonoBehaviour
     [SerializeField] private Sprite cardSprite;
     [SerializeField] public Texture2D cardTexture; // this will be applied to the cardSprite of this GameObject
 
-    //[SerializeField] private string texturePackDir;
+    [SerializeField, SerializeAs("Texture pack directory")] private string texturePackDir = "Assets/AssetPacks/Default/";
     [SerializeField] private string textureName;
 
 
@@ -55,7 +56,7 @@ public class Card : MonoBehaviour
     {
         textureName = $"{value}_of_{suite}".ToLower();
         Debug.Log($"Texture name: {textureName}");
-        cardTexture = (Texture2D)AssetDatabase.LoadAssetAtPath($"Assets/AssetPacks/Default/{textureName}.png", typeof(Texture2D));
+        cardTexture = (Texture2D)AssetDatabase.LoadAssetAtPath($"{texturePackDir}{textureName}.png", typeof(Texture2D));
         spriteRenderer.sprite = Sprite.Create(cardTexture, new Rect(0, 0, cardTexture.width, cardTexture.height), new Vector2(.5f, .5f), 100); ;
         Debug.Log("CardTexture reloaded!");
     }

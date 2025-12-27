@@ -1,3 +1,4 @@
+using UnityEditor;
 using UnityEngine;
 
 public class Player : MonoBehaviour
@@ -11,12 +12,39 @@ public class Player : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        cardPositions = GameObject.Find("Main Camera/CardPositions").GetComponent<CardPositions>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+    }
+
+    public void UpdateAllCardPositions()
+    {
+        hand_1.cards[0].SetPosition(cardPositions.LeftFirst);
+        hand_1.cards[1].SetPosition(cardPositions.LeftSecond);
+        hand_2.cards[0].SetPosition(cardPositions.MiddleFirst);
+        hand_2.cards[1].SetPosition(cardPositions.MiddleSecond);
+        hand_3.cards[0].SetPosition(cardPositions.RightFirst);
+        hand_3.cards[1].SetPosition(cardPositions.RightSecond);
+    }
+}
+
+[CustomEditor(typeof(Player))]
+public class PlayerEditor : Editor
+{
+    public override void OnInspectorGUI()
+    {
+        // Draw normal inspector
+        DrawDefaultInspector();
+
+        Player script = (Player)target;
+
+        GUILayout.Space(10);
+
+        if (GUILayout.Button("them cards are going places"))
+        {
+            script.UpdateAllCardPositions();
+        }
     }
 }
