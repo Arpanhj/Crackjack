@@ -8,6 +8,7 @@ public class Player : MonoBehaviour
     public Hand hand_3;
 
     [SerializeField] private CardPositions cardPositions;
+    [SerializeField] private bool cardsVisible;
     
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -21,6 +22,16 @@ public class Player : MonoBehaviour
 
     public void UpdateAllCardPositions()
     {
+        if (!cardsVisible)
+        {
+            hand_1.cards[0].ReloadTexture("card_back");
+            hand_1.cards[1].ReloadTexture("card_back");
+            hand_2.cards[0].ReloadTexture("card_back");
+            hand_2.cards[1].ReloadTexture("card_back");
+            hand_3.cards[0].ReloadTexture("card_back");
+            hand_3.cards[1].ReloadTexture("card_back");
+            hand_1.cards[0].ReloadTexture("card_back");
+        }
         hand_1.cards[0].SetPosition(cardPositions.LeftFirst);
         hand_1.cards[1].SetPosition(cardPositions.LeftSecond);
         hand_2.cards[0].SetPosition(cardPositions.MiddleFirst);

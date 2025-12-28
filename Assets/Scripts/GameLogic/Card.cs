@@ -30,6 +30,26 @@ public class Card : MonoBehaviour
         KING
     }
 
+    public int worth { 
+        get {
+            switch (value)
+            {
+                case VALUES.JOKER:
+                    return -2;
+                case VALUES.ACE:
+                    return -1; // needs to be handled in another way because A=11 except when A=1
+                case VALUES.JACK:
+                    return 10;
+                case VALUES.QUEEN:
+                    return 10;
+                case VALUES.KING:
+                    return 10;
+                default:
+                    return (int) value;
+            }
+        } 
+    }
+
     public SUITES suite;
     public VALUES value;
     [SerializeField] private Sprite cardSprite;
@@ -52,11 +72,21 @@ public class Card : MonoBehaviour
         spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
-    public void ReloadTexture()
+    public void ReloadTexture(string textureName = null)
     {
-        textureName = $"{value}_of_{suite}".ToLower();
+        if (textureName == null)
+        {
+            textureName = $"{value}_of_{suite}".ToLower();
+        }
+
+
         Debug.Log($"Texture name: {textureName}");
         cardTexture = (Texture2D)AssetDatabase.LoadAssetAtPath($"{texturePackDir}{textureName}.png", typeof(Texture2D));
+        if (cardTexture == null)
+        {
+            Debug.LogError($"Failed to load texture: {texturePackDir}{textureName}.png");
+            return;
+        }
         spriteRenderer.sprite = Sprite.Create(cardTexture, new Rect(0, 0, cardTexture.width, cardTexture.height), new Vector2(.5f, .5f), 100); ;
         Debug.Log("CardTexture reloaded!");
     }
