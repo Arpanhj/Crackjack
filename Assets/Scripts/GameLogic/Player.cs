@@ -7,7 +7,10 @@ public class Player : MonoBehaviour
     public Hand hand_2;
     public Hand hand_3;
 
-    [SerializeField] private CardPositions cardPositions;
+    [SerializeField] private HandView handView_1;
+    [SerializeField] private HandView handView_2;
+    [SerializeField] private HandView handView_3;
+
     [SerializeField] private bool cardsVisible;
     
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -24,20 +27,22 @@ public class Player : MonoBehaviour
     {
         if (!cardsVisible)
         {
-            hand_1.cards[0].ReloadTexture("card_back");
-            hand_1.cards[1].ReloadTexture("card_back");
-            hand_2.cards[0].ReloadTexture("card_back");
-            hand_2.cards[1].ReloadTexture("card_back");
-            hand_3.cards[0].ReloadTexture("card_back");
-            hand_3.cards[1].ReloadTexture("card_back");
-            hand_1.cards[0].ReloadTexture("card_back");
+            SetHandBack(hand_1);
+            SetHandBack(hand_2);
+            SetHandBack(hand_3);
         }
-        hand_1.cards[0].SetPosition(cardPositions.LeftFirst);
-        hand_1.cards[1].SetPosition(cardPositions.LeftSecond);
-        hand_2.cards[0].SetPosition(cardPositions.MiddleFirst);
-        hand_2.cards[1].SetPosition(cardPositions.MiddleSecond);
-        hand_3.cards[0].SetPosition(cardPositions.RightFirst);
-        hand_3.cards[1].SetPosition(cardPositions.RightSecond);
+
+        handView_1.Layout(hand_1.cards);
+        handView_2.Layout(hand_2.cards);
+        handView_3.Layout(hand_3.cards);
+    }
+
+    private void SetHandBack(Hand hand)
+    {
+        foreach (var card in hand.cards)
+        {
+            card.ReloadTexture("card_back");
+        }
     }
 }
 
