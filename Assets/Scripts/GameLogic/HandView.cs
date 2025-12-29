@@ -18,7 +18,6 @@ public class HandView : MonoBehaviour
     /// <summary>
     /// Layouts the cards relative to the anchor with configurable x/y spacing.
     /// </summary>
-    /// <param name="cards">Array of card GameObjects</param>
     public void Layout(Card[] cards)
     {
         if (cards == null || cards.Length == 0)

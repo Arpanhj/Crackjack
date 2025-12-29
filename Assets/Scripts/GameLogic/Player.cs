@@ -1,5 +1,5 @@
-using UnityEditor;
 using UnityEngine;
+using UnityEditor;
 
 public class Player : MonoBehaviour
 {
@@ -11,17 +11,7 @@ public class Player : MonoBehaviour
     [SerializeField] private HandView handView_2;
     [SerializeField] private HandView handView_3;
 
-    [SerializeField] private bool cardsVisible;
-    
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-    }
+    [SerializeField] private bool cardsVisible = true;
 
     public void UpdateAllCardPositions()
     {
@@ -44,6 +34,30 @@ public class Player : MonoBehaviour
             card.ReloadTexture("card_back");
         }
     }
+
+    public void HitHand(int handIndex, Card newCard)
+    {
+        switch (handIndex)
+        {
+            case 1: hand_1.Hit(newCard); break;
+            case 2: hand_2.Hit(newCard); break;
+            case 3: hand_3.Hit(newCard); break;
+            default: Debug.LogError("Invalid hand index"); break;
+        }
+        UpdateAllCardPositions();
+    }
+
+    public void StandHand(int handIndex)
+    {
+        switch (handIndex)
+        {
+            case 1: hand_1.Stand(); break;
+            case 2: hand_2.Stand(); break;
+            case 3: hand_3.Stand(); break;
+            default: Debug.LogError("Invalid hand index"); break;
+        }
+        UpdateAllCardPositions();
+    }
 }
 
 [CustomEditor(typeof(Player))]
@@ -51,16 +65,26 @@ public class PlayerEditor : Editor
 {
     public override void OnInspectorGUI()
     {
-        // Draw normal inspector
         DrawDefaultInspector();
-
-        Player script = (Player)target;
+        Player player = (Player)target;
 
         GUILayout.Space(10);
 
-        if (GUILayout.Button("them cards are going places"))
+        if (GUILayout.Button("Hit Hand 1 (test)"))
         {
-            script.UpdateAllCardPositions();
+            // Replace with actual card from your deck
+            Card newCard = GameObject.Find("GameController/Dealer").GetComponent<Dealer>().deck.DrawCard();
+            player.HitHand(1, newCard);
+        }
+
+        if (GUILayout.Button("Stand Hand 1 (test)"))
+        {
+            player.StandHand(1);
+        }
+
+        if (GUILayout.Button("Update Layout"))
+        {
+            player.UpdateAllCardPositions();
         }
     }
 }

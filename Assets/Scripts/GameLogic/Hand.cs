@@ -1,37 +1,62 @@
-using NUnit.Framework;
-using UnityEditor;
 using UnityEngine;
+
+public enum HandState
+{
+    Playing,
+    Stood,
+    Bust
+}
 
 public class Hand : MonoBehaviour
 {
     public Card[] cards;
-
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
+    public HandState state = HandState.Playing;
 
     /// <summary>
-    /// Calculates the value of the hand by sorting the hand by value, and iterating through the cards from highest to lowest. 
-    /// This causes aces, which have specific rules for their values, are handled at the end.
+    /// Adds a card to the hand
     /// </summary>
-    /// <returns></returns>
+    public void Hit(Card newCard)
+    {
+        if (state != HandState.Playing) return;
+        if (newCard == null)
+        {
+            Debug.LogError("Attempted to hit with null card!");
+            return;
+        }
+
+        int oldLength = cards.Length;
+        System.Array.Resize(ref cards, oldLength + 1);
+        cards[oldLength] = newCard;
+
+        int value = CalculateHandValue();
+        if (value > 21)
+        {
+            state = HandState.Bust;
+            Debug.Log("Hand busted!");
+        }
+    }
+
+    /// <summary>
+    /// Player stands on this hand
+    /// </summary>
+    public void Stand()
+    {
+        if (state != HandState.Playing) return;
+
+        state = HandState.Stood;
+        Debug.Log("Hand stood.");
+    }
+
+    /// <summary>
+    /// Calculates the hand value
+    /// </summary>
     public int CalculateHandValue()
     {
         int value = 0;
         int aceCount = 0;
 
-        if (cards == null || cards.Length == 0)
-            return 0;
+        if (cards == null || cards.Length == 0) return 0;
 
-        // Sort so aces (worth = -1) are handled last
         System.Array.Sort(cards, (a, b) => b.worth.CompareTo(a.worth));
 
         foreach (Card card in cards)
@@ -43,40 +68,14 @@ public class Hand : MonoBehaviour
             }
 
             if (card.value == Card.VALUES.ACE)
-            {
                 aceCount++;
-            }
             else
-            {
                 value += card.worth;
-            }
         }
 
-        // Resolve aces last
         for (int i = 0; i < aceCount; i++)
-        {
             value += (value + 11 <= 21) ? 11 : 1;
-        }
 
         return value;
-    }
-}
-
-[CustomEditor(typeof(Hand))]
-public class HandEditor : Editor
-{
-    public override void OnInspectorGUI()
-    {
-        // Draw normal inspector
-        DrawDefaultInspector();
-
-        Hand script = (Hand)target;
-
-        GUILayout.Space(10);
-
-        if (GUILayout.Button("Calc hand vals and log them"))
-        {
-            Debug.Log(script.CalculateHandValue());
-        }
     }
 }
