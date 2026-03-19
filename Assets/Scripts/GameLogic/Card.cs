@@ -72,7 +72,7 @@ public class Card : MonoBehaviour
         spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
-    public void ReloadTexture(string textureName = null)
+    /*public void ReloadTexture(string textureName = null)
     {
         if (textureName == null)
         {
@@ -89,6 +89,24 @@ public class Card : MonoBehaviour
         }
         spriteRenderer.sprite = Sprite.Create(cardTexture, new Rect(0, 0, cardTexture.width, cardTexture.height), new Vector2(.5f, .5f), 100); ;
         Debug.Log("CardTexture reloaded!");
+    }*/
+
+    public void ReloadTexture(string textureName = null)
+    {
+        if (textureName == null)
+            textureName = $"{value}_of_{suite}".ToLower();
+
+        cardTexture = TexturePackManager.Instance.LoadCardTexture(textureName);
+
+        if (cardTexture == null)
+            return;
+
+        spriteRenderer.sprite = Sprite.Create(
+            cardTexture,
+            new Rect(0, 0, cardTexture.width, cardTexture.height),
+            new Vector2(.5f, .5f),
+            100
+        );
     }
 
     public void SetPosition(Transform target)

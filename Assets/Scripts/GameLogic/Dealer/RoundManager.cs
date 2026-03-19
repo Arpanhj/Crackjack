@@ -6,7 +6,8 @@ using static UnityEngine.GraphicsBuffer;
 public class RoundManager : MonoBehaviour
 {
     [Tooltip("Round sequencing setup")]
-    [SerializeField] private bool startRoundUponSceneEntry = false;
+    [SerializeField] private bool startRoundUponSceneEntry = true;
+    private bool started = false;
 
     public Player[] players;
     [SerializeField] private Dealer dealer;
@@ -28,11 +29,14 @@ public class RoundManager : MonoBehaviour
         if (startRoundUponSceneEntry)
         {
             StartRound();
+            started = true;
         }
     }
 
     void Update()
     {
+        if (startRoundUponSceneEntry && started != true) { started = true; StartRound(); }
+
         if (AllHandsFinished())
         {
             ResolveRound();

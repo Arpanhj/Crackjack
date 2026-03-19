@@ -61,6 +61,7 @@ public class Player : MonoBehaviour
         UpdateAllCardPositions();
     }
 }
+#if UNITY_EDITOR
 
 [CustomEditor(typeof(Player))]
 public class PlayerEditor : Editor
@@ -90,3 +91,5 @@ public class PlayerEditor : Editor
         }
     }
 }
+
+#endif

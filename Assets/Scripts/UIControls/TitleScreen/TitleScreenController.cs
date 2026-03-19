@@ -66,6 +66,9 @@ public class TitleScreenController : MonoBehaviour
     {
         Debug.Log("Quitting, quit key pressed.");
         Application.Quit(0);
+#if UNITY_EDITOR
+
         EditorApplication.isPlaying = false;
+#endif
     }
 }
