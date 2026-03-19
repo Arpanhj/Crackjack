@@ -5,7 +5,9 @@ public class Dealer : MonoBehaviour
 {
     public Deck deck;
 
-    [SerializeField] public Player[] players;
+
+    // [SerializeField] public Player[] players;
+    // nuh: we use the Player[] players in RoundManager instead.
     
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -28,26 +30,5 @@ public class Dealer : MonoBehaviour
         player.hand_2.cards[1] = deck.DrawCard();
         player.hand_3.cards[0] = deck.DrawCard();
         player.hand_3.cards[1] = deck.DrawCard();
-    }
-}
-
-
-[CustomEditor(typeof(Dealer))]
-public class DealerEditor : Editor
-{
-    public override void OnInspectorGUI()
-    {
-        // Draw normal inspector
-        DrawDefaultInspector();
-
-        Dealer script = (Dealer)target;
-
-        GUILayout.Space(10);
-
-        if (GUILayout.Button(new GUIContent("Deal or no deal???", "Deal, obviously\nWhy the fuck would we have a no deal button?\nGo sit in the corner and think about how stupid you are.")))
-        {
-            script.InitialCardDeal(script.players[0]);
-            script.InitialCardDeal(script.players[1]);
-        }
     }
 }

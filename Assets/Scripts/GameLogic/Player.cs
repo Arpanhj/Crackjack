@@ -3,6 +3,8 @@ using UnityEditor;
 
 public class Player : MonoBehaviour
 {
+    public int score = 0;
+
     public Hand hand_1;
     public Hand hand_2;
     public Hand hand_3;
