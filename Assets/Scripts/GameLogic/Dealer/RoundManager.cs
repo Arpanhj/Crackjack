@@ -30,7 +30,28 @@ public class RoundManager : MonoBehaviour
             StartRound();
         }
     }
-        
+
+    void Update()
+    {
+        if (AllHandsFinished())
+        {
+            ResolveRound();
+            Debug.Log("Round resolved, RoundManager must be reenabled for next round.");
+            enabled = false;
+        }
+    }
+
+    public bool AllHandsFinished()
+    {
+        foreach (Player p in players)
+        {
+            if (p.hand_1.state == HandState.Playing) return false;
+            if (p.hand_2.state == HandState.Playing) return false;
+            if (p.hand_3.state == HandState.Playing) return false;
+        }
+
+        return true;
+    }
 
     public void ResolveRound()
     {

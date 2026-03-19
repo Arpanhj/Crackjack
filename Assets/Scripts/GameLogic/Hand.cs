@@ -12,6 +12,13 @@ public class Hand : MonoBehaviour
     public Card[] cards;
     public HandState state = HandState.Playing;
 
+    public SpriteRenderer cross;
+
+    private void Start()
+    {
+        cross = GetComponent<SpriteRenderer>();
+    }
+
     /// <summary>
     /// Adds a card to the hand
     /// </summary>
@@ -31,9 +38,15 @@ public class Hand : MonoBehaviour
         int value = CalculateHandValue();
         if (value > 21)
         {
-            state = HandState.Bust;
-            Debug.Log("Hand busted!");
+            Bust();
         }
+    }
+
+    public void Bust()
+    {
+        state = HandState.Bust;
+        cross.enabled = true;
+        Debug.Log("Hand busted!");
     }
 
     /// <summary>
