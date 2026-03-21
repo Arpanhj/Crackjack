@@ -32,6 +32,7 @@ public class HandView : MonoBehaviour
                           new Vector3(startX + i * xSpacing, i * ySpacing, -i * zStep);
 
             cards[i].transform.position = pos;
+            cards[i].transform.rotation = anchor.rotation;
         }
     }
 }
