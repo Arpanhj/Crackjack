@@ -4,6 +4,9 @@ using UnityEngine.InputSystem;
 public class PlayerInputHandler : MonoBehaviour
 {
     [SerializeField] private Player player;
+
+    [SerializeField] private TurnManager turnManager;
+
     private CrackjackInputActions inputActions;
 
     private void Awake()
@@ -32,12 +35,16 @@ public class PlayerInputHandler : MonoBehaviour
 
     private void HitHand(int handIndex)
     {
+        if (turnManager.CurrentPlayer != player)
+            return;
         Card newCard = DrawCardForPlayer();
         player.HitHand(handIndex, newCard);
     }
 
     private void StandHand(int handIndex)
     {
+        if (turnManager.CurrentPlayer != player)
+            return;
         player.StandHand(handIndex);
     }
 

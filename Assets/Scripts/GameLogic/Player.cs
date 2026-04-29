@@ -60,6 +60,12 @@ public class Player : MonoBehaviour
         }
         UpdateAllCardPositions();
     }
+    public bool AllHandsFinished()
+    {
+        return hand_1.state != HandState.Playing &&
+               hand_2.state != HandState.Playing &&
+               hand_3.state != HandState.Playing;
+    }
 }
 #if UNITY_EDITOR
 
