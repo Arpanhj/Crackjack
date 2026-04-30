@@ -32,6 +32,12 @@ public class PlayerInputHandler : MonoBehaviour
 
     private void HitHand(int handIndex)
     {
+        if (!player.CanHitHand(handIndex))
+        {
+            Debug.LogWarning($"Cannot hit hand {handIndex} because it's not in a playable state.");
+            return;
+        }
+
         Card newCard = DrawCardForPlayer();
         player.HitHand(handIndex, newCard);
     }

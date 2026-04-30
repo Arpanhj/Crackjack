@@ -15,6 +15,17 @@ public class Player : MonoBehaviour
 
     [SerializeField] private bool cardsVisible = true;
 
+    public bool CanHitHand(int handIndex)
+    {
+        switch (handIndex)
+        {
+            case 1: return hand_1.state == HandState.Playing;
+            case 2: return hand_2.state == HandState.Playing;
+            case 3: return hand_3.state == HandState.Playing;
+            default: Debug.LogError("Invalid hand index"); return false;
+        }
+    }
+
     public void UpdateAllCardPositions()
     {
         if (!cardsVisible)
@@ -46,8 +57,20 @@ public class Player : MonoBehaviour
             case 3: hand_3.Hit(newCard); break;
             default: Debug.LogError("Invalid hand index"); break;
         }
+
+        // hide new card
+
         UpdateAllCardPositions();
+
+        gameObject.GetComponent<GameplayAnimations>().AnimateNewCard(handIndex, newCard);
+
+        // play animation
+
     }
+
+
+
+
 
     public void StandHand(int handIndex)
     {
