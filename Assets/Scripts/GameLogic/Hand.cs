@@ -13,6 +13,7 @@ public class Hand : MonoBehaviour
     public HandState state = HandState.Playing;
 
     public SpriteRenderer cross;
+    public SpriteRenderer standLock;
 
     private void Start()
     {
@@ -41,10 +42,15 @@ public class Hand : MonoBehaviour
             Bust();
         }
     }
-
+    /// <summary>
+    /// did you even bust, bro
+    /// </summary>
     public void Bust()
     {
         state = HandState.Bust;
+
+        cross.sortingOrder = 100; //that shit needs to go on top dawg
+
         cross.enabled = true;
         Debug.Log("Hand busted!");
     }
@@ -55,6 +61,9 @@ public class Hand : MonoBehaviour
     public void Stand()
     {
         if (state != HandState.Playing) return;
+
+        standLock.sortingOrder = 100;
+        standLock.enabled = true;
 
         state = HandState.Stood;
         Debug.Log("Hand stood.");
