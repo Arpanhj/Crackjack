@@ -31,4 +31,16 @@ public class Dealer : MonoBehaviour
         player.hand_3.cards[0] = deck.DrawCard();
         player.hand_3.cards[1] = deck.DrawCard();
     }
+
+    public Card[,] NetworkedInitialCardDeal()
+    {
+        Card[,] deal = new Card[2,1];
+        deal[0, 0] = deck.DrawCard();
+        deal[0, 1] = deck.DrawCard();
+        deal[1, 0] = deck.DrawCard();
+        deal[1, 1] = deck.DrawCard();
+        deal[2, 0] = deck.DrawCard();
+        deal[2, 1] = deck.DrawCard();
+        return deal;
+    }
 }
